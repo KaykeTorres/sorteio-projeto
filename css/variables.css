@@ -1,0 +1,21 @@
+/* ============================================================
+   VARIABLES.CSS — Design System
+   Sorteio · +Esporte −Remédio
+   ------------------------------------------------------------
+   TODAS as configurações globais de cor e tipografia vivem aqui.
+   Para mudar a identidade visual do site inteiro, edite só este
+   arquivo.
+   ============================================================ */
+
+:root{
+  --azul:#002B82;
+  --azul-escuro:#001640;
+  --azul-meio:#062A6E;
+  --azul-claro:#2E5BD8;
+  --branco:#ffffff;
+  --ouro:#FFC629;
+  --ouro-escuro:#E0A500;
+  --verde:#27D17C;
+  --display:'Anton','Archivo Narrow','Arial Narrow',sans-serif;
+  --body:'Inter',system-ui,-apple-system,sans-serif;
+}

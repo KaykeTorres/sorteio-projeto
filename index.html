@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sorteio · + Esporte − Remédio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Estilos do projeto (apenas imports — ver css/style.css) -->
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="topbar">
+    <button class="icon-btn" id="btnSom" title="Ligar/desligar som">🔊 Som</button>
+    <button class="icon-btn" id="btnFull" title="Tela cheia">⛶ Tela cheia</button>
+  </div>
+
+  <div class="wrap">
+    <header>
+      <img class="logo" src="img/logo-mascote.png" alt="+ Esporte − Remédio">
+      <div class="eyebrow"><span class="live-dot"></span> Sorteio Oficial · Ao Vivo</div>
+    </header>
+
+    <!-- AVISO DE SINCRONIZAÇÃO AUTOMÁTICA COM O CADASTRO -->
+    <div class="sync-status" id="syncStatus"></div>
+
+    <!-- PALCO -->
+    <section class="palco" id="palco">
+      <div class="flash" id="flash"></div>
+      <div class="palco-eyebrow" id="palcoEyebrow">Pronto para começar</div>
+
+      <div class="ring-wrap">
+        <svg class="ring" id="ring" viewBox="0 0 200 200">
+          <circle class="track" cx="100" cy="100" r="92"></circle>
+          <circle class="prog" id="ringProg" cx="100" cy="100" r="92"
+            transform="rotate(-90 100 100)"></circle>
+        </svg>
+
+        <div class="roller idle" id="roller">Adicione os participantes abaixo</div>
+
+        <div class="winner" id="winner">
+          <div class="trophy">🏆</div>
+          <div class="winner-label">Vencedor(a)</div>
+          <div class="winner-name" id="winnerName"></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="controls">
+      <button class="btn-sortear" id="btnSortear" disabled>Sortear</button>
+      <button id="btnAgain" style="display:none;">Sortear novamente</button>
+      <button id="btnRemove" style="display:none;">Retirar vencedor(a) da urna</button>
+    </div>
+
+    <!-- PAINÉIS -->
+    <div class="grid">
+      <div class="card">
+        <h3>Participantes <span class="tag">um por linha</span></h3>
+        <p class="hint">Os nomes vêm automaticamente do cadastro. Você também pode colar ou digitar manualmente — cada linha é uma pessoa na urna.</p>
+        <textarea id="names" placeholder="João Silva&#10;Maria Souza&#10;Carlos Lima&#10;Ana Paula&#10;..."></textarea>
+        <div class="count-row">
+          <div class="count"><b id="countNum">0</b> na urna</div>
+          <div class="mini-actions">
+            <button id="btnAtualizarCadastro">🔄 Atualizar do cadastro</button>
+            <button id="btnExemplo">Exemplo</button>
+            <button id="btnLimparNomes">Limpar lista</button>
+          </div>
+        </div>
+        <div class="dup-warn" id="dupWarn">
+          <div class="dw-text" id="dupText"></div>
+          <button id="btnDedupe">Remover duplicados</button>
+        </div>
+        <div class="dup-ok" id="dupOk">✓ Nenhum nome duplicado — urna íntegra.</div>
+
+        <label class="opt">
+          <input type="checkbox" id="optAuto" checked>
+          <span class="switch"></span>
+          Retirar o vencedor automaticamente (para vários prêmios)
+        </label>
+      </div>
+
+      <div class="card">
+        <h3>Resultados</h3>
+        <div id="histList"><p class="hint" style="margin:0;">Os ganhadores aparecerão aqui em ordem.</p></div>
+        <button class="hist-clear" id="btnClearHist" style="display:none;">Limpar resultados</button>
+      </div>
+    </div>
+
+    <footer>+ Esporte − Remédio · Iniciativa do mandato — sorteio realizado de forma aleatória e transparente.</footer>
+  </div>
+
+  <!-- ════════════════════════════════════════════════════════
+       SCRIPTS — ordem importa (dependências entre arquivos)
+       ════════════════════════════════════════════════════════ -->
+  <script src="js/audio.js"></script>
+  <script src="js/estado.js"></script>
+  <script src="js/sorteio-engine.js"></script>
+  <script src="js/confete.js"></script>
+  <script src="js/historico-extras.js"></script>
+  <script src="js/google-sheets.js"></script>
+  <script src="js/sync-cadastro.js"></script>
+</body>
+</html>

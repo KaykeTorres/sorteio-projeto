@@ -15,6 +15,7 @@ btnSortear.addEventListener('click', drawStart);
 btnAgain.addEventListener('click', ()=>{ resetStage(); });
 btnRemove.addEventListener('click', ()=>{
   if(currentWinner){
+    sorteados.add(normName(currentWinner));
     remaining = remaining.filter(n=>n!==currentWinner);
     countNum.textContent = remaining.length;
   }
@@ -83,6 +84,7 @@ function reveal(){
   renderHist();
 
   if(optAuto.checked){
+    sorteados.add(normName(currentWinner));
     remaining = remaining.filter(n=>n!==currentWinner);
     countNum.textContent = remaining.length;
     btnAgain.textContent = remaining.length>0 ? 'Sortear próximo' : 'Urna vazia';

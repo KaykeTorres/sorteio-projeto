@@ -8,14 +8,17 @@ const namesEl=$('names'), countNum=$('countNum'), btnSortear=$('btnSortear'),
       optAuto=$('optAuto'), dupWarn=$('dupWarn'), dupText=$('dupText'), dupOk=$('dupOk');
 
 let names=[], remaining=[], history=[], rolling=false, currentWinner=null;
+// nomes já sorteados (normalizados) — preservado mesmo quando a lista é
+// recarregada do cadastro, para que um vencedor removido não volte à urna
+let sorteados = new Set();
 const RING_LEN = 2*Math.PI*92;
 ringProg.style.strokeDasharray = RING_LEN;
 ringProg.style.strokeDashoffset = RING_LEN;
 
 function parse(){
   names = namesEl.value.split('\n').map(n=>n.trim()).filter(Boolean);
-  remaining = [...names];
-  countNum.textContent = names.length;
+  remaining = names.filter(n=>!sorteados.has(normName(n)));
+  countNum.textContent = remaining.length;
   checkDuplicates();
   resetStage();
 }

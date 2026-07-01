@@ -16,12 +16,13 @@ btnClearHist.addEventListener('click', ()=>{ history=[]; renderHist(); });
 
 /* ============================ EXTRAS ============================ */
 $('btnExemplo').addEventListener('click', ()=>{
+  sorteados = new Set();
   namesEl.value = ['Ana Beatriz Lima','Carlos Eduardo Souza','Mariana Oliveira','Pedro Henrique Costa',
     'Juliana Santos','Rafael Almeida','Beatriz Ferreira','Lucas Gabriel Rocha',
     'Camila Rodrigues','Thiago Martins','Fernanda Carvalho','Gustavo Pereira'].join('\n');
   parse();
 });
-$('btnLimparNomes').addEventListener('click', ()=>{ namesEl.value=''; parse(); });
+$('btnLimparNomes').addEventListener('click', ()=>{ sorteados = new Set(); namesEl.value=''; parse(); });
 $('btnDedupe').addEventListener('click', dedupe);
 
 $('btnSom').addEventListener('click', ()=>{

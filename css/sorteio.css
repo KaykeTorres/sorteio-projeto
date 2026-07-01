@@ -20,6 +20,9 @@ body {
   background:
     radial-gradient(1200px 700px at 50% -10%, #0a3ca8 0%, transparent 60%),
     linear-gradient(160deg, var(--azul) 0%, var(--azul-escuro) 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
   min-height: 100vh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;

@@ -3,15 +3,16 @@
    ------------------------------------------------------------
    Este arquivo busca, na mesma planilha do Google Sheets usada
    pelo formulário de cadastro (+Esporte −Remédio), a lista de
-   nomes dos participantes — e preenche a urna do sorteio
-   automaticamente, sem precisar copiar e colar nada.
+   participantes — e preenche a urna do sorteio automaticamente,
+   sem precisar copiar e colar nada.
 
    COMO CONFIGURAR:
    1. Use a MESMA URL do Apps Script já publicada para o
       formulário de cadastro (a que termina em /exec).
    2. Cole essa URL abaixo, em SHEET_WEBAPP_URL.
    3. Garanta que o apps-script.gs publicado já tenha a ação
-      "?action=nomes" (ver apps-script.gs do projeto de cadastro).
+      "?action=nomes" devolvendo "Nome;AAAA-MM-DD" por linha
+      (ver apps-script.gs do projeto de cadastro).
 
    Enquanto SHEET_WEBAPP_URL não for configurada, o sorteio
    continua funcionando normalmente em modo manual: a pessoa
@@ -19,19 +20,20 @@
    ============================================================ */
 
 // 🔗 Cole aqui a MESMA URL do Apps Script usada no formulário de cadastro (termina em /exec)
-const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzTfFDsq6CqwmdTUTO7pQPf0fMhbPDX9eL0EUcY7WgdA83z-sYxKRppw2xgwuiGVeMR/exec";
+const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbwPAKJjSU0kojLS9qeZkS4FhWcmvmJmPsc_ja1w0z_QCtYloV2JqP2VoXI9Ief8rcOn/exec";
 
 
 
 
 /**
- * Busca a lista de nomes (texto puro, um por linha) direto da
- * planilha de cadastro, através do Apps Script.
- * @returns {Promise<{ok: boolean, texto: string, message?: string}>}
+ * Busca a lista de participantes (nome + data de cadastro) direto da
+ * planilha de cadastro, através do Apps Script. Cada linha devolvida
+ * pelo Apps Script vem no formato "Nome Completo;AAAA-MM-DD".
+ * @returns {Promise<{ok: boolean, participantes: {nome:string, data:string}[], message?: string}>}
  */
 async function fetchNomesParaSorteio() {
   if (!SHEET_WEBAPP_URL) {
-    return { ok: false, texto: "", message: "not_configured" };
+    return { ok: false, participantes: [], message: "not_configured" };
   }
 
   try {
@@ -39,10 +41,14 @@ async function fetchNomesParaSorteio() {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
     const texto = await response.text();
-    return { ok: true, texto: texto.trim() };
+    const participantes = texto.trim().split("\n").filter(Boolean).map(linha => {
+      const [nome, data] = linha.split(";");
+      return { nome: (nome || "").trim(), data: (data || "").trim() };
+    });
+    return { ok: true, participantes };
   } catch (err) {
     console.error("[google-sheets.js] Falha ao buscar nomes do cadastro:", err);
-    return { ok: false, texto: "", message: "fetch_error" };
+    return { ok: false, participantes: [], message: "fetch_error" };
   }
 }
 

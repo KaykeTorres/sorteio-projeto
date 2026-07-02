@@ -62,14 +62,13 @@
     <!-- PAINÉIS -->
     <div class="grid">
       <div class="card">
-        <h3>Participantes <span class="tag">um por linha</span></h3>
-        <p class="hint">Os nomes vêm automaticamente do cadastro. Você também pode colar ou digitar manualmente — cada linha é uma pessoa na urna.</p>
+        <h3>Participantes do dia <span class="tag" id="dataHojeTag"></span></h3>
+        <p class="hint">Somente quem se cadastrou hoje entra na urna. Clique em "Atualizar participantes" para buscar do cadastro, ou cole/digite manualmente — cada linha é uma pessoa na urna.</p>
         <textarea id="names" placeholder="João Silva&#10;Maria Souza&#10;Carlos Lima&#10;Ana Paula&#10;..."></textarea>
         <div class="count-row">
           <div class="count"><b id="countNum">0</b> na urna</div>
           <div class="mini-actions">
             <button id="btnAtualizarCadastro">🔄 Atualizar participantes</button>
-            <button id="btnExemplo">Exemplo</button>
             <button id="btnLimparNomes">Limpar lista</button>
           </div>
         </div>

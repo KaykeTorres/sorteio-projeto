@@ -5,7 +5,25 @@ const namesEl=$('names'), countNum=$('countNum'), btnSortear=$('btnSortear'),
       winner=$('winner'), winnerName=$('winnerName'), palco=$('palco'),
       palcoEyebrow=$('palcoEyebrow'), ring=$('ring'), ringProg=$('ringProg'),
       flash=$('flash'), histList=$('histList'), btnClearHist=$('btnClearHist'),
-      optAuto=$('optAuto'), dupWarn=$('dupWarn'), dupText=$('dupText'), dupOk=$('dupOk');
+      optAuto=$('optAuto'), dupWarn=$('dupWarn'), dupText=$('dupText'), dupOk=$('dupOk'),
+      dataHojeTag=$('dataHojeTag');
+
+/* data de hoje no formato AAAA-MM-DD (fuso local), usada para filtrar
+   quem se cadastrou hoje — precisa bater com o formato devolvido pelo
+   Apps Script (Utilities.formatDate(..., "yyyy-MM-dd")) */
+function dataDeHojeISO(){
+  const hoje = new Date();
+  const ano = hoje.getFullYear();
+  const mes = String(hoje.getMonth()+1).padStart(2,'0');
+  const dia = String(hoje.getDate()).padStart(2,'0');
+  return `${ano}-${mes}-${dia}`;
+}
+/* data de hoje no formato dd/mm, só para exibir no título */
+function dataDeHojeCurta(){
+  const hoje = new Date();
+  return `${String(hoje.getDate()).padStart(2,'0')}/${String(hoje.getMonth()+1).padStart(2,'0')}`;
+}
+if(dataHojeTag) dataHojeTag.textContent = dataDeHojeCurta();
 
 let names=[], remaining=[], history=[], rolling=false, currentWinner=null;
 // nomes já sorteados (normalizados) — preservado mesmo quando a lista é

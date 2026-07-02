@@ -17,6 +17,9 @@ ringProg.style.strokeDashoffset = RING_LEN;
 
 function parse(){
   names = namesEl.value.split('\n').map(n=>n.trim()).filter(Boolean);
+  // só exclui quem já foi sorteado — duplicados continuam contados até o
+  // usuário clicar em "Remover duplicados", para o número da urna sempre
+  // bater com o que está escrito na caixa de texto
   remaining = names.filter(n=>!sorteados.has(normName(n)));
   countNum.textContent = remaining.length;
   checkDuplicates();
@@ -46,6 +49,15 @@ function checkDuplicates(){
     dupWarn.classList.remove('show');
     dupOk.classList.toggle('show', names.length > 0);
   }
+}
+
+/* remove visualmente da caixa de texto todas as linhas que correspondem
+   ao nome informado (inclusive duplicatas dele), mantendo o restante intacto */
+function removeFromVisibleList(nome){
+  const k = normName(nome);
+  namesEl.value = namesEl.value.split('\n')
+    .filter(n => normName(n.trim()) !== k)
+    .join('\n');
 }
 
 function dedupe(){

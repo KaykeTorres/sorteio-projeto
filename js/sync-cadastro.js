@@ -1,10 +1,9 @@
 /* ============================================================
-   SYNC-CADASTRO.JS — Preenche a urna automaticamente
+   SYNC-CADASTRO.JS — Preenche a urna sob demanda
    ------------------------------------------------------------
-   Ao carregar a página, busca os nomes mais recentes do
-   cadastro e preenche a caixa de participantes sozinho.
-   Também atualiza de novo antes de cada sorteio, para pegar
-   cadastros de última hora.
+   A urna só é preenchida/atualizada a partir do cadastro quando
+   o botão "Atualizar do cadastro" é clicado — não há busca
+   automática ao carregar a página nem antes de cada sorteio.
 
    Requer que js/google-sheets.js seja carregado ANTES deste
    arquivo, e que js/estado.js (que define `parse`, `namesEl`)
@@ -21,7 +20,7 @@
     const messages = {
       loading: { text: "🔄 Buscando participantes do cadastro…", cls: "warn" },
       not_configured: { text: "⚠️ Sincronização automática não configurada — preencha manualmente abaixo.", cls: "warn" },
-      connected: { text: "✅ Lista atualizada automaticamente a partir do cadastro.", cls: "ok" },
+      connected: { text: "✅ Lista atualizada a partir do cadastro.", cls: "ok" },
       empty: { text: "ℹ️ Nenhum participante cadastrado ainda.", cls: "warn" },
       error: { text: "⚠️ Não foi possível buscar o cadastro agora — você pode colar os nomes manualmente.", cls: "warn" },
     };
@@ -60,20 +59,6 @@
     if (typeof parse === "function") parse();
     setStatus("connected");
   }
-
-  // Busca assim que a página carrega.
-  document.addEventListener("DOMContentLoaded", syncNomesDoCadastro);
-
-  // Atualiza de novo sempre que o botão "Sortear" for clicado,
-  // garantindo que cadastros de última hora entrem na urna —
-  // mas só se ainda não estiver girando.
-  document.addEventListener("DOMContentLoaded", () => {
-    const btn = document.getElementById("btnSortear");
-    if (!btn) return;
-    btn.addEventListener("click", () => {
-      if (!rolling) syncNomesDoCadastro();
-    }, { capture: true });
-  });
 
   // Exposto para um botão "Atualizar agora" no HTML, se usado.
   window.SyncCadastro = { syncNomesDoCadastro };
